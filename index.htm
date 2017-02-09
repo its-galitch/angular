@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="myApp">
+    <head>
+        <title>Introduction to AngularJS</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta charset="UTF-8">
+
+        <!-- load bootstrap and font awesome via CDN -->
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css.map" />
+        <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" />
+        <style>
+            html, body
+            {
+                font-size: 1.1em;
+            }
+        </style>
+        
+        <!-- load angular via CDN -->
+        <script src="angular.min.js"></script>
+
+        <script src="app.js"></script>
+    </head>
+    <body>
+
+        <div class="container">
+
+
+            <div class="page-header">
+                <div ng-controller="mainController" class="col-md-12">
+                    <div>
+                          <label>What is your twitter handle?</label>
+                            <input type="text" ng-model="handle" />
+                    </div>
+
+
+                    <div class="alert "
+                         ng-class="{'alert-warning': handle.length < characters,
+                         'alert-danger': handle.length > characters}"
+
+                         ng-show="handle.length !== characters">
+                        Must be 5 characters!
+                    </div>
+                    <hr />
+                    <h1>Hello {{ handle }}</h1>
+
+                    <div ng-show="handle.length < characters">
+                        You have less than 5 characters!
+                    </div>
+                    <div ng-show="handle.length > characters">
+                        You have more than 5 characters
+                    </div>
+
+                    <h3>Rules</h3>
+                    <ul>
+                        <li ng-repeat="rule in rules">
+                            {{ rule.title }}
+                        </li>
+                    </ul>
+
+                    <input type="button" value="Click me" ng-click="alertClick()">
+                </div>
+
+            </div>
+		</div>
+
+    </body>
+</html>
