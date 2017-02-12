@@ -1,41 +1,49 @@
 // MODULE
-var myApp = angular.module('myApp', []);
+var myApp = angular.module('myApp', ['ngRoute']);
+
+myApp.config(function ($routeProvider) {
+    $routeProvider
+        .when('/',{
+            templateUrl: 'pages/main.html',
+            controller: 'mainController'
+        })
+        .when('/second/:num',{
+            templateUrl: 'pages/second.html',
+            controller: 'secondController'
+        })
+});
+// my own service
+myApp.service('nameService', function () {
+   
+    var self = this;
+    this.name = ' John Doe';
+    this.namelength = function () {
+        return self.name.length;
+    }
+});
 
 // CONTROLLERS
-myApp.controller('mainController', ['$scope', '$filter','$timeout',
-    function ($scope, $filter, $timeout) {
+myApp.controller('mainController', ['$scope',
+    function ($scope, $log, nameService) {
+    $scope.name='Main';
+    
+    $log.log(nameService.name);
+    $log.log(nameService.namelength());
+        
+    
+    }]);
 
-    $scope.handle = '';
-
-    $scope.lowercasehandle = function ()
-    {
-        return $filter('lowercase')($scope.handle);
-    };
-
-    $scope.characters = 5;
-
-
-
-    var rulesrequest = new XMLHttpRequest();
-    rulesrequest.onreadystatechange = function () {
-
-        $scope.$apply(function () {
-            if(rulesrequest.readyState == 4 && rulesrequest.status == 200)
-            {
-                $scope.rules = JSON.parse(rulesrequest.responseText);
-            }
-
-        });
-
-    };
-
-    rulesrequest.open("GET","https://jsonplaceholder.typicode.com/posts",true);
-    rulesrequest.send();
-
-    $scope.alertClick = function () {
-        $scope.handle = "The button was clicked";
-    }
-
+myApp.controller('secondController', ['$scope', '$routParams','$log',
+    function ($scope, $routeParams, $log) {
+    
+    $scope.num = $routeParams.num;
+    
+   
+    $scope.word = 'Second';
+    
+        
 }]);
+
+
 
 
