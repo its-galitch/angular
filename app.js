@@ -19,27 +19,32 @@ myApp.service('nameService', function () {
     this.name = ' John Doe';
     this.namelength = function () {
         return self.name.length;
-    }
+    };
 });
 
 // CONTROLLERS
-myApp.controller('mainController', ['$scope',
+myApp.controller('mainController', ['$scope','$log','nameService',
     function ($scope, $log, nameService) {
-    $scope.name='Main';
+    $scope.name=nameService.name;
     
-    $log.log(nameService.name);
-    $log.log(nameService.namelength());
-        
     
+    
+    $scope.$watch('name',function (newValue, oldValue) {
+        nameService.name = newValue;
+    });
+
     }]);
 
-myApp.controller('secondController', ['$scope', '$routParams','$log',
-    function ($scope, $routeParams, $log) {
+myApp.controller('secondController', ['$scope', '$routeParams','$log','nameService',
+    function ($scope, $routeParams, $log,nameService) {
     
     $scope.num = $routeParams.num;
     
    
-    $scope.word = 'Second';
+    $scope.name = nameService.name;
+    $scope.$watch('name',function (newValue, oldValue) {
+        nameService.name = newValue;
+    });
     
         
 }]);
